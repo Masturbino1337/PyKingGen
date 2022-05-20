@@ -1,0 +1,7 @@
+[metadata]
+name = PyKing
+description = Simple asyncio API wrapper for KingGen
+license = Apache-2.0
+
+[build-system]
+requires = ["httpx"]
