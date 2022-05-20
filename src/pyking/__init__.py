@@ -19,7 +19,7 @@ class Client:
         self.session = httpx.AsyncClient()
         self.api_key = api_key
 
-    async def request(self, endpoint):
+    async def _request(self, endpoint):
         resp = await self.session.get("https://kinggen.wtf/api/v2/" + endpoint + "/?key=" + self.api_key)
 
         if not resp.status_code == 200:
@@ -28,12 +28,12 @@ class Client:
         return resp.json()
 
     async def profile(self):
-        return Profile(await self.request("profile"))
+        return _Profile(await self._request("profile"))
 
     async def alt(self):
-        return Alt(await self.request("alt"))
+        return _Alt(await self._request("alt"))
 
-class Profile:
+class _Profile:
     def __init__(self, resp):
         self.username: str = resp["username"]
         self.generated: int = resp["generated"]
@@ -43,7 +43,7 @@ class Profile:
     def __str__(self):
         return f"<Profile username={self.username} generated={self.generated} generated_today={self.generated_today} stock={self.stock}>"
 
-class Alt:
+class _Alt:
     def __init__(self, resp):
         self.email: str = resp["email"]
         self.password: str = resp["password"]
