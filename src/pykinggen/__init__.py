@@ -12,15 +12,23 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+#    Made with love for Allah
+
 import httpx
 
 class Client:
+    r"""Client class for API queries
+    Parameters
+    -----------
+    api_key: str
+        valid KingGen API key
+    """
     def __init__(self, api_key):
         self.session = httpx.AsyncClient()
         self.api_key = api_key
 
     async def _request(self, endpoint):
-        resp = await self.session.get("https://kinggen.wtf/api/v2/" + endpoint + "/?key=" + self.api_key)
+        resp = await self.session.get("https://kinggen.wtf/api/v2/" + endpoint + "?key=" + self.api_key)
 
         if not resp.status_code == 200:
             raise ApiError(resp.json()["message"])
@@ -28,9 +36,25 @@ class Client:
         return resp.json()
 
     async def profile(self):
+        r"""Returns a profile object
+        Example
+        -----------
+        repr: str
+            <Profile username=Xevier generated=69 generated_today=21 stock=6969>
+        str: str
+            Xevier:69:21:6969
+        """
         return _Profile(await self._request("profile"))
 
     async def alt(self):
+        r"""Returns an alt object
+        Example
+        -----------
+        repr: str
+            <Alt email=uwu@gmail.com password=ilovekittens69>
+        str: str
+            uwu@gmail.com:ilovekittens69
+        """
         return _Alt(await self._request("alt"))
 
 class _Profile:
@@ -40,23 +64,29 @@ class _Profile:
         self.generated_today: int = resp["generatedToday"]
         self.stock: int = resp["stock"]
 
-    def __str__(self):
+    def __repr__(self) -> str:
         return f"<Profile username={self.username} generated={self.generated} generated_today={self.generated_today} stock={self.stock}>"
+
+    def __str__(self) -> str:
+        return f"{self.username}:{self.generated}:{self.generated_today}:{self.stock}"
 
 class _Alt:
     def __init__(self, resp):
         self.email: str = resp["email"]
         self.password: str = resp["password"]
 
-    def __str__(self):
+    def __repr__(self) -> str:
         return f"<Alt email={self.email} password={self.password}>"
 
-class PyKingGenError(Exception):
+    def __str__(self) -> str:
+        return f"{self.email}:{self.password}"
+
+class PyKingError(Exception):
     pass
 
-class ApiError(PyKingGenError):
+class ApiError(PyKingError):
     def __init__(self, message):
         self.message = message
 
-    def __str__(self):
+    def __repr__(self):
         return self.message
