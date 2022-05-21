@@ -51,10 +51,10 @@ class _Alt:
     def __str__(self):
         return f"<Alt email={self.email} password={self.password}>"
 
-class PyKingError(Exception):
+class PyKingGenError(Exception):
     pass
 
-class ApiError(PyKingError):
+class ApiError(PyKingGenError):
     def __init__(self, message):
         self.message = message
 
