@@ -30,8 +30,14 @@ class Client:
     async def _request(self, endpoint):
         resp = await self.session.get("https://kinggen.wtf/api/v2/" + endpoint + "?key=" + self.api_key)
 
-        if not resp.status_code == 200:
-            raise ApiError(resp.json()["message"])
+        if 600 > resp.status_code >= 500:
+            raise ApiError()
+
+        elif resp.status_code == 401:
+            raise InvalidKeyError()
+
+        elif resp.status_code == 403:
+            raise DailyLimitError()
 
         return resp.json()
 
@@ -85,8 +91,13 @@ class PyKingError(Exception):
     pass
 
 class ApiError(PyKingError):
-    def __init__(self, message):
-        self.message = message
+    def __repr__(self) -> str:
+        return "The API is down"
 
-    def __repr__(self):
-        return self.message
+class InvalidKeyError(PyKingError):
+    def __repr__(self) -> str:
+        return "Invalid API key"
+
+class DailyLimitError(PyKingError):
+    def __repr__(self) -> str:
+        return "User is at daily limit"
