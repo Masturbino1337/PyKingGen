@@ -3,7 +3,7 @@ Simple Python KingGen API wrapper
 
 # Install
 Use Python3 pip
-* `python3 -m pip install pykinggen`
+* `python3 -m pip install PyKingGen`
 
 Or
 
