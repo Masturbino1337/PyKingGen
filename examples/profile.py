@@ -1,5 +1,5 @@
 import asyncio
-from pyking import Client
+from pykinggen import Client
 
 client = Client("api-key")
 
