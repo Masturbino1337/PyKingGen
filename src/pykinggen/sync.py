@@ -28,7 +28,7 @@ class Client:
         valid KingGen API key
     """
     def __init__(self, api_key):
-        self.session = requests.session()
+        self.session = httpx.Client()
         self.api_key = api_key
 
     def _request(self, endpoint):
