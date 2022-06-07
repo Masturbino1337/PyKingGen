@@ -3,6 +3,9 @@ Simple Python KingGen API wrapper
 
 # Install
 Use Python3 pip
+
+https://pypi.org/project/PyKingGen/
+
 * `python3 -m pip install PyKingGen`
 
 Or
