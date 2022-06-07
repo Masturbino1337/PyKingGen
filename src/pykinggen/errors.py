@@ -20,13 +20,13 @@ class PyKingError(Exception):
     pass
 
 class ApiError(PyKingError):
-    def __repr__(self) -> str:
-        return "The API is down"
-
-class InvalidKeyError(PyKingError):
-    def __repr__(self) -> str:
-        return "Invalid API key"
+    pass
 
 class DailyLimitError(PyKingError):
-    def __repr__(self) -> str:
-        return "User is at daily limit"
+    pass
+
+class InvalidKeyError(PyKingError):
+    pass
+
+class StockError(PyKingError):
+    pass
