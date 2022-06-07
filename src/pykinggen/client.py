@@ -16,7 +16,7 @@ limitations under the License.
 Made with love for Allah
 """
 
-from .errors import ApiError, InvalidKeyError, DailyLimitError
+from .errors import ApiError, DailyLimitError, InvalidKeyError, StockError
 from .types import Profile, Alt
 import httpx
 
@@ -36,6 +36,9 @@ class Client:
 
         if 600 > resp.status_code >= 500:
             raise ApiError()
+
+        elif resp.status_code == 204:
+            raise StockError()
 
         elif resp.status_code == 401:
             raise InvalidKeyError()
